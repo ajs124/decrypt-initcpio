@@ -1,0 +1,15 @@
+# Configuration file for the decrypt hook.
+# Be sure to rebuild the initcpio after changing this config!!
+# Do not put anything confidential in this file as it will be placed in the unencrypted initcpio.
+
+# Keystore is the UUID of the device that should be used as volume containing the keys.
+keystore="00000000-0000-0000-0000-000000000000"
+# volumes is a colon-separated list with all volumes that should be unlocked.
+# Each volume consists of a UUID and a name, separated with a pipe.
+# The name is the name of the unlocked volume and also the name of the keyfile in the keystore.
+volumes="00000000-0000-0000-0000-000000000000|ssd"
+volumes="$volumes:00000000-0000-0000-0000-000000000000|hdd"
+volumes="$volumes:00000000-0000-0000-0000-000000000000|swap"
+
+# vim: set ft=sh ts=4 sw=4:
+

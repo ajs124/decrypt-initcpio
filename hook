@@ -1,0 +1,24 @@
+#!/usr/bin/ash
+
+run_hook() {
+	. /etc/decrypt
+	# Initialize keystore
+	mkdir /keystore
+	cryptsetup luksOpen /dev/disk/by-uuid/$keystore keystore
+	mount /dev/mapper/keystore /keystore
+	# Mount volumes
+	IFS=':'
+	for volume in $volumes; do
+		uuid=`echo $volume | cut -d '|' -f1`
+		name=`echo $volume | cut -d '|' -f2`
+		cryptsetup --key-file /keystore/$name luksOpen /dev/disk/by-uuid/$uuid $name &
+	done
+	wait
+	# Clean up
+	umount /keystore
+	cryptsetup close keystore
+	rmdir /keystore
+}
+
+# vim: set ft=sh ts=4 sw=4:
+
